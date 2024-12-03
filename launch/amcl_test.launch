@@ -1,0 +1,30 @@
+<!--move2grasp-->
+<launch>
+    <!-- Arguments 设定相关参数-->
+    <arg name="open_rviz" default="true"/>
+    <!--雷达类型-->
+    <arg name="lidar_type_tel" default="ydlidar_g6" doc="lidar type [3iroboticslidar2, ydlidar_g2]"/>
+    <!-- 摄像机类型 -->
+    <arg name="camera_type_tel" default="d435" doc="camera type [astrapro, astra, d435...]"/>
+    <!--spark底盘驱动，机器人描述,底盘,相机-->
+    <include file="$(find spark_bringup)/launch/driver_bringup.launch">
+        <arg name="camera_type_tel" value="$(arg camera_type_tel)"/>
+        <arg name="lidar_type_tel"  value="$(arg lidar_type_tel)"/>
+        <arg name="start_camera" value="true"/> 
+    </include>
+    <!-- 启动雷达 -->
+    <include file="$(find lidar_driver_transfer)/launch/$(arg lidar_type_tel).launch">
+    </include>
+    <!-- rviz -->
+    <group if="$(arg open_rviz)"> 
+            <node pkg="rviz" type="rviz" name="rviz" />
+    </group>
+    <node pkg="nav_jiying1" type="keyboard2control.py" name="teleop" launch-prefix="xterm -e" />
+    <!-- 加载地图 -->
+    <include file="$(find nav_jiying1)/launch/map_server.launch">
+    </include>
+    <!-- 定位节点 --><!-- PoseArray 2D Pose Estimate -->
+    <include file="$(find nav_jiying1)/launch/amcl.launch">
+    </include>
+</launch>
+

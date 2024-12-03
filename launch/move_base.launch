@@ -1,0 +1,8 @@
+<!-- Move base -->
+<launch>
+    <arg name="3d_sensor" default="3i_lidar"/>  
+    <arg name="custom_param_file" default="$(find spark_navigation)/param/$(arg 3d_sensor)_costmap_params.yaml"/>
+    <include file="$(find spark_navigation)/launch/includes/move_base.launch.xml">
+        <arg name="custom_param_file" value="$(arg custom_param_file)"/>
+    </include>
+</launch>

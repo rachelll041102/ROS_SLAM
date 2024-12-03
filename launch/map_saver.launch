@@ -1,0 +1,7 @@
+<launch>
+
+
+    <!-- rosrun map_server map_saver -f /home/spark/spark_noetic/src/nav_jiying1/map/room201_01 -->
+    <arg name="filename" value="room201.yaml"/>
+    <node pkg="map_server" type="map_saver" name="map_saver_jiying1" args="-f $(find nav_jiying1)/map/room201.yaml"/>
+</launch>
